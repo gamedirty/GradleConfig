@@ -1,0 +1,55 @@
+import java.util.function.BiConsumer
+import java.util.function.Consumer
+
+println("梦想开始的地方")
+
+apply plugin: ConfigPlugin
+
+
+class ConfigPlugin implements Plugin<Project> {
+
+
+    @Override
+    void apply(Project target) {
+        println("project名称是：" + target.name)
+
+        target.getAllTasks(true).forEach(new BiConsumer<Project, Set<Task>>() {
+            @Override
+            void accept(Project project, Set<Task> tasks) {
+                println("开始打印${project.name}的所有task")
+
+                tasks.forEach(new Consumer<Task>() {
+                    @Override
+                    void accept(Task task) {
+
+                        println("${project.name}的task：${task.name}")
+                    }
+                })
+
+            }
+        })
+
+        println("开始打印 =====plugins")
+
+      target.getPlugins().forEach(new Consumer<Plugin>() {
+          @Override
+          void accept(Plugin plugin) {
+
+              plugin.properties.forEach(new BiConsumer() {
+                  @Override
+                  void accept(Object o, Object o2) {
+                    println(o+","+o2)
+                  }
+              })
+          }
+      })
+
+    }
+
+    void printRule(Rule rule) {
+
+        println("开始打印rule：" + rule.dump())
+    }
+}
+
+

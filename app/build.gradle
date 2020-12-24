@@ -1,0 +1,63 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'com.jakewharton.butterknife'
+    id 'kotlin-kapt'
+}
+
+
+task("last") {
+    doLast {
+        println("最后执行")
+    }
+}
+
+configurations {
+
+    someConfiguration
+}
+
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.2"
+
+    defaultConfig {
+        applicationId "com.sovnem.gradleconfig"
+        minSdkVersion 21
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+
+    implementation project(path: ':mylibrary')
+    kapt 'com.jakewharton:butterknife-compiler:10.2.3'
+    someConfiguration("org.gradle:gradle-core:2.2")
+}
+
+
+public static void main(String[] args) {
+
+}
+
+apply from: 'config.gradle'
+apply from: 'dependence.gradle'
